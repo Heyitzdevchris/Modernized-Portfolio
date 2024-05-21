@@ -1,7 +1,16 @@
+"use client"
+
+import { useState } from "react";
+import { IoCopyOutline } from "react-icons/io5";
+
+import Lottie from "react-lottie";
+
 import { cn } from "@/utils/cn";
+
 import { BackgroundGradientAnimation } from "./GradientBg";
 import GridGlobe from "./GridGlobe";
-import { div } from "three/examples/jsm/nodes/Nodes.js";
+import animationData from "@/data/confetti.json";
+import MagicButton from "./MagicButton";
 
 export const BentoGrid = ({
   className,
@@ -13,7 +22,7 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 md:grid-row-7 gap-4 lg:gap-8 mx-auto ",
+        "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 md:grid-row-7 gap-4 lg:gap-8 mx-auto",
         className
       )}
     >
@@ -24,25 +33,33 @@ export const BentoGrid = ({
 
 export const BentoGridItem = ({
   className,
+  id,
   title,
   description,
-  id,
   img,
   imgClassName,
   titleClassName,
   spareImg,
 }: {
   className?: string;
+  id: number;
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
   header?: React.ReactNode;
   icon?: React.ReactNode;
-  id?: number;
   img?: string;
   imgClassName?: string;
   titleClassName?: string;
   spareImg?: string;
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText('chrisaaron184@gmail.com');
+
+    setCopied(true);
+  }
+
   return (
     <div
       className={cn(
@@ -70,7 +87,7 @@ export const BentoGridItem = ({
             <img 
               src={spareImg}
               alt={spareImg}
-              className={'object-cover, object-center w-full h-full'}            
+              className={'object-cover object-center w-full h-full'}            
             />
           )}
         </div>
@@ -104,13 +121,36 @@ export const BentoGridItem = ({
               <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
             </div>
             <div className="flex flex-col gap-3 lg:gap-8">
+            <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
               {['Node.js', 'Express', 'PostgreSQL'].map((item) => (
                 <span key={item} className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]">
                   {item}
                 </span>
               ))}
-              <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
             </div>
+          </div>
+        )}
+
+        {id === 6 && (
+          <div className="mt-5 relative">
+            <div className={`absolute -bottom-5 right-0`}>
+                <Lottie options={{
+                  loop: copied,
+                  autoplay: copied,
+                  animationData,
+                  rendererSettings: {
+                    preserveAspectRatio: 'xMidYMid slice'
+                  }
+                }} />
+            </div>
+
+            <MagicButton 
+              title={copied ? 'Email copied' : 'Copy my email'}
+              icon={<IoCopyOutline />}
+              position="left"
+              otherClasses="!bg-[#161A31]"
+              handleClick={handleCopy}
+            />
           </div>
         )}
       </div>
