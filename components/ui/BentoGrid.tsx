@@ -1,5 +1,7 @@
 import { cn } from "@/utils/cn";
 import { BackgroundGradientAnimation } from "./GradientBg";
+import GridGlobe from "./GridGlobe";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 export const BentoGrid = ({
   className,
@@ -44,7 +46,7 @@ export const BentoGridItem = ({
   return (
     <div
       className={cn(
-        "row-span-1 relative group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none border border-white/[0.1] overflow-hidden justify-between flex flex-col space-y-4",
+        "row-span-1 relative group/bento rounded-3xl hover:shadow-xl transition duration-200 shadow-input dark:shadow-none border border-white/[0.1] overflow-hidden justify-between flex flex-col space-y-4",
         className
       )}
       style={{
@@ -53,13 +55,13 @@ export const BentoGridItem = ({
           "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
       }}
     >
-      <div className={`${id === 6} && 'flex justify-center h-full`}>
+      <div className={`${id === 6 && 'flex justify-center'} h-full`}>
         <div className="w-full h-full absolute">
           {img && (
             <img 
               src={img}
               alt={img}
-              className={cn(imgClassName, 'object-cover, object-center')}
+              className={cn(imgClassName, 'object-cover object-center')}
             />
           )}
         </div>
@@ -87,9 +89,32 @@ export const BentoGridItem = ({
           </div>
           <div className="font-sans font-bold text-lg lg:text-3xl max-w-96 z-10">
             {title}
-        </div>
-        </div>
+          </div>
+
+        {id === 2 && <GridGlobe />}
+
+        {id === 3 && (
+          <div className="flex gap-1 lg:gap-5 w-fit absolute -right-3 lg:-right-2">
+            <div className="flex flex-col gap-3 lg:gap-8">
+              {['React.js', 'Next.js', 'TypeScript'].map((item) => (
+                <span key={item} className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]">
+                  {item}
+                </span>
+              ))}
+              <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
+            </div>
+            <div className="flex flex-col gap-3 lg:gap-8">
+              {['Node.js', 'Express', 'PostgreSQL'].map((item) => (
+                <span key={item} className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]">
+                  {item}
+                </span>
+              ))}
+              <span className="py-4 px-3 rounded-lg text-center bg-[#10132E]" />
+            </div>
+          </div>
+        )}
       </div>
+    </div>
     </div>
   );
 };
